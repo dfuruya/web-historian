@@ -26,6 +26,7 @@ exports.initialize = function(pathsObj) {
 // modularize your code. Keep it clean!
 
 exports.readListOfUrls = function() {
+	fs.readFile(exports.paths.archivedSites, function(err, data))
 };
 
 exports.isUrlInList = function() {
