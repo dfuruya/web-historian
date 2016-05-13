@@ -29,7 +29,6 @@ exports.readListOfUrls = function(cb) {
   fs.readFile(exports.paths.list, (err, data) => {
     if (err) { throw err; }
     var urlArray = data.toString().split('\n');
-    console.log(urlArray);
     cb(urlArray);
   });
 };
@@ -60,6 +59,9 @@ exports.isUrlArchived = function(url, callback) {
   });
 };
 
-exports.downloadUrls = function(urlArray) {
-
+exports.downloadUrls = function() {
+  exports.readListOfUrls(exports.paths.list, function(something) {
+    // make worker go to website to download all of its files
+  });
 };
+
