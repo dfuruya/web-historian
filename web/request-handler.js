@@ -20,7 +20,6 @@ var actions = {
         if (isArchived) {
           http.serveSite(res, archive.paths.archivedSites, '/' + req.url, 200);
         } else {
-          // http.serveSite(res, archive.paths.siteAssets, '/loading.html', 302);
           http.sendNotFound(res);
         }
       });
@@ -62,13 +61,3 @@ exports.handleRequest = function (req, res) {
   action(req, res);
 };
 
-
-    // invoke isUrlInList
-      // callback --->>>>>> 
-        // if false (url NOT in list)
-          // send 404 response
-        // if true (url is IN LIST)
-          // check if exists in Archived folder
-            // if it is, serve it up
-            // otherwise redirect them to 302 loading.html
-            //then serve it up when it's archived

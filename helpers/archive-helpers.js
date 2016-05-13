@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
 
+var request = require('request');
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
  * Consider using the `paths` object below to store frequently used file paths. This way,
@@ -59,9 +60,14 @@ exports.isUrlArchived = function(url, callback) {
   });
 };
 
-exports.downloadUrls = function() {
-  exports.readListOfUrls(exports.paths.list, function(something) {
-    // make worker go to website to download all of its files
-  });
+exports.downloadUrls = function(urlArray) {
+  for (var url = 0; url < urlArray.length; url++) {
+    var urlString = urlArray[url];
+    exports.isUrlArchived(urlString, function(found) {
+      if (!found) {
+        fs.createReadStream(urlString).pipe(fs.createWriteStream(exports.paths.archivedSites + '/' + urlString));
+      }
+    });
+  }
 };
 
