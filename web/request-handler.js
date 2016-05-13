@@ -4,11 +4,11 @@ var http = require('./http-helpers');
 var fs = require('fs');
 // require more modules/folders here!
 var url = require('url');
-var worker = require('../workers/htmlfetcher');
+// var worker = require('../workers/htmlfetcher');
 
 var actions = {
 	//should return the content of index.html
-  'GET': function(req, res) { 
+  'GET': function(req, res) {
 
     if (req.url === '/') {
       http.serveSite(res, archive.paths.siteAssets, '/index.html');
@@ -27,7 +27,6 @@ var actions = {
   },
 
   'POST': function(req, res) {
-    // read req info
     var results = '';
 
     req.on('data', function(chunks) {
@@ -37,18 +36,12 @@ var actions = {
     req.on('end', function() {
       var data = results.split('=')[1] + '\n';
       archive.isUrlInList(data, function(isInList) {
-        // check list to see if it doesn't exist
         if (!isInList) {
-          // add URL to list
           archive.addUrlToList(data, function() {
-            // send URL to worker to be archived
-            // worker.werk();
-            // send response back
+            // worker.doWerk();
             http.sendResponse(res, 'Please come back when the site is downloaded!', 302);
           });
-        // if it exists
         } else {
-          // serve 
           http.sendNotFound(res);
         }
       });
@@ -60,4 +53,3 @@ exports.handleRequest = function (req, res) {
   action = actions[req.method];
   action(req, res);
 };
-

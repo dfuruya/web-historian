@@ -65,9 +65,9 @@ exports.downloadUrls = function(urlArray) {
     var urlString = urlArray[url];
     exports.isUrlArchived(urlString, function(found) {
       if (!found) {
-        fs.createReadStream(urlString).pipe(fs.createWriteStream(exports.paths.archivedSites + '/' + urlString));
+        var destination = exports.paths.archivedSites + '/' + urlString;
+        request('http://' + urlString).pipe(fs.createWriteStream(destination));
       }
     });
   }
 };
-
